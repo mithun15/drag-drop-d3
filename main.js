@@ -95,7 +95,15 @@ line = container.append('line')
   .attr('x2', event.offsetX)
   .attr('y2', event.offsetY)
   .attr('stroke', 'red')
-    console.log(event)
+  .attr('marker-end', 'url(#arrow)')
+
+// line = container.append('polyline')
+//   .attr('points', event.offsetX + ',' + event.offsetY + " " + event.offsetX + ',' + event.offsetY)
+//   .attr('y1', event.offsetY)
+//   .attr('x2', event.offsetX)
+//   .attr('y2', event.offsetY)
+//   .attr('stroke', 'red')
+	console.log(clicked)
 });
 $(".clickable").on("mousemove", (event) => {
     if(clicked){
@@ -104,3 +112,7 @@ $(".clickable").on("mousemove", (event) => {
           .attr('y2', event.offsetY)
     }
 });
+
+var data = [[0, 20], [10, 30]];
+         var lineGenerator = d3.svg.line();
+         container.append('path').attr('d', lineGenerator(data));
