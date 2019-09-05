@@ -45,13 +45,14 @@ var map = d3.select("#map")
             ;
 			
 			//Create the drag and drop behavior to set for the objects crated
-			var drag = d3.behavior.drag()
-				.origin(function(d) { return d; })
-				.on("dragstart", dragstarted)
+			var drag = d3.drag()
+				.subject(function(d) { return d; })
+				.on("start", dragstarted)
 				.on("drag", dragged);
 			
 			//Called when drag event starts. It stop the propagation of the click event
 			function dragstarted(d){
+				console.log('dragstart')
 				d3.event.sourceEvent.stopPropagation();
 			}
 			
@@ -60,9 +61,12 @@ var map = d3.select("#map")
 				d.x = d3.event.x;
 				d.y = d3.event.y;
 				//Translate the object on the actual moved point
-				d3.select(this).attr({
-					transform: "translate(" + d.x + "," + d.y + ")"
-				});
+				d3.select(this).attr(
+					'transform', "translate(" + d.x + "," + d.y + ")"
+				);
+
+				// d3.select(this).attr("transform",  "translate(" + [ d3.event.x,d3.event.y ] + ")"
+				// )
 			}
 			
 							
@@ -113,6 +117,82 @@ $(".clickable").on("mousemove", (event) => {
     }
 });
 
-var data = [[0, 20], [10, 30]];
-         var lineGenerator = d3.svg.line();
-         container.append('path').attr('d', lineGenerator(data));
+// var data = [[0, 20], [10, 30]];
+//          var lineGenerator = d3.svg.line();
+//          container.append('path').attr('d', lineGenerator(data));
+
+
+// Force layout Example
+
+// var url = 'https://raw.githubusercontent.com/DealPete/forceDirected/master/countries.json';
+// var width = 1200;
+// var height = 1800;
+// var margin = {
+//   top: 5, 
+//   bottom: 50, 
+//   left: 0, 
+//   right: 75
+// };
+
+// $.ajax({
+//   url: url, 
+//   dataType: 'json', 
+//   success: function(data){
+//     console.log(data);
+//     renderChart(data);
+//   }
+// });
+
+// function renderChart(data){
+//   var svg = d3.select('.chart')
+//               .attr('width', width + margin.left + margin.right)
+//               .attr('height', height + margin.top + margin.bottom)
+  
+//   //extracting the nodes and links from the dataset
+//   var data_nodes = data.nodes;
+//   var data_links = data.links;
+  
+//   //Creating force layout simulation object
+//   var simulation = d3.forceSimulation(data_nodes)
+//                 .force('link', d3.forceLink())
+//                 .force('charge', d3.forceManyBody())
+//                 .force('center', d3.forceCenter(width / 2, height / 2));
+  
+  
+//   //creating a variable for the links where the data will be stored
+//   var link = svg.selectAll('.link')
+//                 .append('g')
+//                 .data(data_links)
+//                 .enter().append('line')
+//                 .attr('class', 'link')
+//   .attr("stroke","black")
+//              .attr('stroke-width', 1)
+ 
+//   //creating a variable for the nodes where the data will be stored
+//   var node = svg.selectAll('.node')
+//                  .append('g')
+//                  .data(data_nodes)
+//                  .enter().append('circle')
+//                  .attr('r', 5)
+//                  .attr('class', 'node')
+  
+//   simulation
+//       .nodes(data_nodes)
+//       .on('tick', ticked);
+  
+//   simulation.force('link')
+//             .links(link);
+  
+//   function ticked(){
+//     link.attr('x1', function(d){ return data_nodes[d.source].x; })
+//         .attr('y1', function(d){ return data_nodes[d.source].y; })
+//         .attr('x2', function(d){ return data_nodes[d.target].x; })
+//         .attr('y2', function(d){ return data_nodes[d.target].y; });
+    
+//     node.attr('cx', function(d) { return d.x; })
+//         .attr('cy', function(d) { return d.y; })
+//         .on('mouseover', function(d){
+//            console.log(d.country);
+//         })
+//   }
+// }
